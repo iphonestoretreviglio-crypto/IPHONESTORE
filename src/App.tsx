@@ -45,6 +45,131 @@ const REPAIR_TYPES = [
   { id: 'other', label: 'Altro problema', icon: Wrench },
 ];
 
+const REFURBISHED_PRODUCTS = [
+  {
+    id: 'iphone-15-pro-max',
+    name: 'iPhone 15 Pro Max',
+    image: 'https://www.backmarket.it/cdn-cgi/image/format%3Dauto%2Cquality%3D75%2Cwidth%3D1920/https://d2e6ccujb3mkqf.cloudfront.net/8dbb77f3-ed87-4726-bc72-3ad6c4c9074b-1_062687a3-643d-4e54-9003-c96421b624e6.jpg',
+    colorImages: {
+      'Titanio Nero': 'https://www.backmarket.it/cdn-cgi/image/format%3Dauto%2Cquality%3D75%2Cwidth%3D1920/https://d2e6ccujb3mkqf.cloudfront.net/8dbb77f3-ed87-4726-bc72-3ad6c4c9074b-1_062687a3-643d-4e54-9003-c96421b624e6.jpg',
+      'Titanio Blu': 'https://www.backmarket.it/cdn-cgi/image/format%3Dauto%2Cquality%3D75%2Cwidth%3D1920/https://d2e6ccujb3mkqf.cloudfront.net/050998bb-8ac0-4768-a92a-d6a433730248-1_c7ba5564-499e-4b30-b4fa-c269879c9cb3.jpg',
+      'Titanio Naturale': 'https://www.backmarket.it/cdn-cgi/image/format%3Dauto%2Cquality%3D75%2Cwidth%3D1920/https://d2e6ccujb3mkqf.cloudfront.net/96bcda54-2982-4c37-90ff-96482688dcd2-1_5ca9779c-77b5-4333-9be7-f377ff26dd0b.jpg',
+      'Titanio Bianco': 'https://www.backmarket.it/cdn-cgi/image/format%3Dauto%2Cquality%3D75%2Cwidth%3D1920/https://d2e6ccujb3mkqf.cloudfront.net/55ded173-0ff0-44db-ba2c-70c6a87a79df-1_19718cdf-f94c-4278-a761-0b9caec7999c.jpg'
+    },
+    colors: ['Titanio Nero', 'Titanio Blu', 'Titanio Naturale', 'Titanio Bianco'],
+    storage: ['256GB', '512GB', '1TB']
+  },
+  {
+    id: 'iphone-15',
+    name: 'iPhone 15',
+    image: 'https://www.backmarket.it/cdn-cgi/image/format%3Dauto%2Cquality%3D75%2Cwidth%3D1920/https://d2e6ccujb3mkqf.cloudfront.net/8debb43b-94ef-4ec4-8589-9520e9eaa983-1_788be5ce-0df1-4871-96b2-50271a0fdb40.jpg',
+    colorImages: {
+      'Nero': 'https://www.backmarket.it/cdn-cgi/image/format%3Dauto%2Cquality%3D75%2Cwidth%3D1920/https://d2e6ccujb3mkqf.cloudfront.net/8debb43b-94ef-4ec4-8589-9520e9eaa983-1_788be5ce-0df1-4871-96b2-50271a0fdb40.jpg',
+      'Blu': 'https://www.backmarket.it/cdn-cgi/image/format%3Dauto%2Cquality%3D75%2Cwidth%3D1920/https://d2e6ccujb3mkqf.cloudfront.net/a8517119-6ed0-4c6f-8799-22f95658bc19-1_4afffbc4-dcec-45c2-a6ab-fb0b22f2d9b4.jpg'
+    },
+    colors: ['Nero', 'Blu', 'Verde', 'Giallo', 'Rosa'],
+    storage: ['128GB', '256GB', '512GB']
+  },
+  {
+    id: 'iphone-14-pro',
+    name: 'iPhone 14 Pro',
+    image: 'https://images.unsplash.com/photo-1663499482523-1c0c1bae4ce1?auto=format&fit=crop&q=80&w=600',
+    colors: ['Nero Siderale', 'Argento', 'Oro', 'Viola Scuro'],
+    storage: ['128GB', '256GB', '512GB', '1TB']
+  },
+  {
+    id: 'iphone-13',
+    name: 'iPhone 13',
+    image: 'https://images.unsplash.com/photo-1632661674596-f18d6258aa62?auto=format&fit=crop&q=80&w=600',
+    colors: ['Mezzanotte', 'Galassia', 'Blu', 'Rosa', 'Verde', 'Product(RED)'],
+    storage: ['128GB', '256GB', '512GB']
+  },
+  {
+    id: 'iphone-12',
+    name: 'iPhone 12',
+    image: 'https://images.unsplash.com/photo-1603791440384-56cd371ee9a7?auto=format&fit=crop&q=80&w=600',
+    colors: ['Nero', 'Bianco', 'Rosso', 'Verde', 'Blu', 'Viola'],
+    storage: ['64GB', '128GB', '256GB']
+  },
+  {
+    id: 'iphone-11',
+    name: 'iPhone 11',
+    image: 'https://images.unsplash.com/photo-1573148195900-7845dcb9b127?auto=format&fit=crop&q=80&w=600',
+    colors: ['Nero', 'Verde', 'Giallo', 'Viola', 'Product(RED)', 'Bianco'],
+    storage: ['64GB', '128GB', '256GB']
+  }
+];
+
+const ProductCard = ({ product }: { product: any }) => {
+  const [selectedColor, setSelectedColor] = useState(product.colors[0]);
+  const [selectedStorage, setSelectedStorage] = useState(product.storage[0]);
+
+  // Use color-specific image if available, otherwise fallback to default product image
+  const currentImage = product.colorImages?.[selectedColor] || product.image;
+
+  const handleBuy = () => {
+    const text = encodeURIComponent(`Ciao! Vorrei informazioni per un ${product.name} Ricondizionato.\nColore: ${selectedColor}\nCapacità: ${selectedStorage}\nÈ disponibile?`);
+    window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${text}`, '_blank');
+  };
+
+  return (
+    <motion.div 
+      initial={{ opacity: 0, y: 20 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      className="bg-white rounded-3xl border border-gray-100 overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col pt-8"
+    >
+      <div className="px-8 flex-1">
+        <img 
+          src={currentImage} 
+          alt={product.name} 
+          className="w-full h-48 object-contain mb-6 hover:scale-105 transition-transform duration-500"
+          referrerPolicy="no-referrer"
+        />
+        <h3 className="text-xl font-bold mb-4">{product.name}</h3>
+        
+        <div className="mb-6">
+          <label className="text-[10px] font-bold uppercase tracking-wider text-gray-400 block mb-2">Colore</label>
+          <div className="flex flex-wrap gap-2">
+            {product.colors.map(color => (
+              <button 
+                key={color}
+                onClick={() => setSelectedColor(color)}
+                className={`text-[10px] px-3 py-1 rounded-full border transition-colors ${selectedColor === color ? 'bg-black text-white border-black' : 'bg-white text-gray-600 border-gray-200 hover:border-gray-400'}`}
+              >
+                {color}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        <div className="mb-6">
+          <label className="text-[10px] font-bold uppercase tracking-wider text-gray-400 block mb-2">Capacità</label>
+          <div className="flex gap-2">
+            {product.storage.map(size => (
+              <button 
+                key={size}
+                onClick={() => setSelectedStorage(size)}
+                className={`text-[10px] px-3 py-1 rounded-full border transition-colors ${selectedStorage === size ? 'bg-blue-600 text-white border-blue-600' : 'bg-white text-gray-600 border-gray-200 hover:border-gray-400'}`}
+              >
+                {size}
+              </button>
+            ))}
+          </div>
+        </div>
+      </div>
+      
+      <button 
+        onClick={handleBuy}
+        className="w-full bg-gray-50 hover:bg-black hover:text-white py-4 font-semibold text-sm transition-all border-t border-gray-100 flex items-center justify-center gap-2"
+      >
+        <MessageCircle className="w-4 h-4" />
+        Chiedi Disponibilità
+      </button>
+    </motion.div>
+  );
+};
+
 export default function App() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
@@ -80,6 +205,8 @@ export default function App() {
               />
             </a>
             <div className="hidden md:flex gap-6 text-xs font-medium text-gray-800">
+              <a href="#nuovi" className="opacity-80 hover:opacity-100 transition-opacity">Telefoni Nuovi</a>
+              <a href="#ricondizionati" className="opacity-80 hover:opacity-100 transition-opacity">Telefoni Ricondizionati</a>
               <a href="#riparazioni" className="opacity-80 hover:opacity-100 transition-opacity">Riparazioni</a>
               <a href="#dove-siamo" className="opacity-80 hover:opacity-100 transition-opacity">Dove Siamo</a>
               <a href="#contatti" className="opacity-80 hover:opacity-100 transition-opacity">Contatti</a>
@@ -107,6 +234,8 @@ export default function App() {
         animate={{ height: isMenuOpen ? '100vh' : 0, opacity: isMenuOpen ? 1 : 0 }}
         className="fixed inset-0 bg-white z-40 md:hidden overflow-hidden flex flex-col pt-20 px-10 gap-6 text-2xl font-semibold"
       >
+        <a href="#nuovi" onClick={() => setIsMenuOpen(false)}>Telefoni Nuovi</a>
+        <a href="#ricondizionati" onClick={() => setIsMenuOpen(false)}>Telefoni Ricondizionati</a>
         <a href="#riparazioni" onClick={() => setIsMenuOpen(false)}>Riparazioni</a>
         <a href="#dove-siamo" onClick={() => setIsMenuOpen(false)}>Dove Siamo</a>
         <a href="#contatti" onClick={() => setIsMenuOpen(false)}>Contatti</a>
@@ -133,12 +262,94 @@ export default function App() {
           <p className="text-xl md:text-2xl font-light mb-8 opacity-90 max-w-2xl mx-auto">
             Il tuo iPhone è in buone mani. Riparazioni professionali a Treviglio con ricambi di alta qualità.
           </p>
-          <a href="#configuratore" className="bg-white text-black px-8 py-3 rounded-full font-medium hover:bg-gray-100 transition-colors inline-block">
-            Calcola Preventivo
-          </a>
+          <div className="flex flex-wrap gap-4 justify-center">
+            <a href="#configuratore" className="bg-white text-black px-8 py-3 rounded-full font-medium hover:bg-gray-100 transition-colors inline-block">
+              Calcola Preventivo
+            </a>
+            <a 
+              href={`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent("Ciao! Vorrei informazioni sugli iPhone nuovi disponibili.")}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="bg-blue-600 text-white px-8 py-3 rounded-full font-medium hover:bg-blue-700 transition-colors inline-block"
+            >
+              Telefoni Nuovi
+            </a>
+          </div>
         </motion.div>
         <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1512499617640-c74ae3a79d37?auto=format&fit=crop&q=80&w=2000')] bg-cover bg-center opacity-40"></div>
         <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/20 to-white"></div>
+      </section>
+
+      {/* Refurbished Catalog */}
+      <section id="ricondizionati" className="py-24 px-4 bg-white">
+        <div className="max-w-6xl mx-auto">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl md:text-5xl font-bold tracking-tight mb-4">iPhone Ricondizionati</h2>
+            <p className="text-xl text-gray-500 font-light">Grado A++ garantito. Prestazioni eccellenti, prezzo imbattibile.</p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {REFURBISHED_PRODUCTS.map((product) => (
+              <ProductCard key={product.id} product={product} />
+            ))}
+          </div>
+          
+          <div className="mt-16 p-8 bg-gray-50 rounded-3xl text-center border border-gray-100">
+            <h3 className="text-2xl font-bold mb-2">Non trovi il modello che cerchi?</h3>
+            <p className="text-gray-500 mb-6">Abbiamo nuovi arrivi ogni settimana. Contattaci per richieste specifiche.</p>
+            <a 
+              href={`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent("Ciao! Sto cercando un modello specifico di iPhone ricondizionato che non ho trovato sul sito.")}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 text-blue-600 font-semibold hover:underline"
+            >
+              Chiedi info su altri modelli <ChevronRight className="w-4 h-4" />
+            </a>
+          </div>
+        </div>
+      </section>
+
+      {/* Categories Recap */}
+      <section className="grid md:grid-cols-2 gap-4 p-4 bg-gray-50">
+        <motion.a 
+          id="nuovi"
+          href={`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent("Ciao! Vorrei sapere quali modelli di iPhone nuovi avete a disposizione.")}`}
+          target="_blank"
+          rel="noopener noreferrer"
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          className="relative h-[40vh] md:h-[50vh] rounded-3xl overflow-hidden bg-white group"
+        >
+          <div className="absolute inset-0 p-8 z-10 flex flex-col justify-end bg-gradient-to-t from-black/60 to-transparent text-white">
+            <h3 className="text-2xl font-bold mb-1">Telefoni Nuovi</h3>
+            <p className="opacity-80 text-sm mb-4">Tutta la gamma iPhone 16 e modelli precedenti originali Apple.</p>
+            <span className="text-xs font-semibold uppercase tracking-widest flex items-center">
+              Chiedi disponibilità <ChevronRight className="w-3 h-3 ml-1" />
+            </span>
+          </div>
+          <img src="https://images.unsplash.com/photo-1695048133142-1a20484d2569?auto=format&fit=crop&q=80&w=800" alt="Nuovi" className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
+        </motion.a>
+
+        <motion.a 
+          id="ricondizionati"
+          href={`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent("Ciao! Mi interessano i vostri iPhone ricondizionati, cosa avete in pronta consegna?")}`}
+          target="_blank"
+          rel="noopener noreferrer"
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          className="relative h-[40vh] md:h-[50vh] rounded-3xl overflow-hidden bg-white group"
+        >
+          <div className="absolute inset-0 p-8 z-10 flex flex-col justify-end bg-gradient-to-t from-black/60 to-transparent text-white">
+            <h3 className="text-2xl font-bold mb-1">Telefoni Ricondizionati</h3>
+            <p className="opacity-80 text-sm mb-4">Grado A++ testati e garantiti. Risparmia senza rinunciare alla qualità.</p>
+            <span className="text-xs font-semibold uppercase tracking-widest flex items-center">
+              Vedi pronti consegna <ChevronRight className="w-3 h-3 ml-1" />
+            </span>
+          </div>
+          <img src="https://images.unsplash.com/photo-1592899677977-9c10ca588bbd?auto=format&fit=crop&q=80&w=800" alt="Ricondizionati" className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
+        </motion.a>
       </section>
 
       {/* Repair Configurator */}
@@ -301,6 +512,7 @@ export default function App() {
                 <li>{STORE_ADDRESS}</li>
                 <li>Treviglio (BG)</li>
                 <li>WhatsApp: {WHATSAPP_NUMBER}</li>
+                <li>Email: Iphonestore.treviglio@gmail.com</li>
               </ul>
             </div>
             <div>

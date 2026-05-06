@@ -274,6 +274,12 @@ export default function App() {
             >
               Telefoni Nuovi
             </a>
+            <a 
+              href="#ricondizionati"
+              className="bg-gray-800 text-white px-8 py-3 rounded-full font-medium hover:bg-gray-700 transition-colors inline-block border border-white/10"
+            >
+              Telefoni Ricondizionati
+            </a>
           </div>
         </motion.div>
         <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1512499617640-c74ae3a79d37?auto=format&fit=crop&q=80&w=2000')] bg-cover bg-center opacity-40"></div>
